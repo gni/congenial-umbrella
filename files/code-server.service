@@ -1,0 +1,15 @@
+[Unit]
+Description=VSCode
+After=network.target
+
+[Service]
+User=vagrant
+Group=vagrant
+
+WorkingDirectory=/home/vagrant/.local/bin
+Environment="PATH=/home/vagrant/.local/bin"
+Environment="PASSWORD=supersecretpassword"
+ExecStart=/home/vagrant/.local/bin/code-server --port 8443 --bind-addr 0.0.0.0
+
+[Install]
+WantedBy=multi-user.target

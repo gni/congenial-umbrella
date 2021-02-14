@@ -1,0 +1,33 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Return hello world.
+      command: echo 'hello world'
+      register: hello
+      changed_when: false
+
+    - name: Print the task hello world.
+      debug:
+        msg: "{{ hello.stdout }}"
+
+
+    - name: Upgrade all packages
+      yum:
+        name: '*'
+        state: latest
+      become: yes
+
+    # - name: Upgrade all packages, excluding kernel & foo related packages
+    #   yum:
+    #     name: '*'
+    #     state: latest
+    #     exclude: kernel*,foo*
+    #   become: yes
+
+    # - name: Code Server
+    #   include_tasks: ./tasks/code-server.yml
+
+    - name: Code Service
+      include_tasks: ./tasks/code-service.yml

@@ -1,0 +1,33 @@
+- name: Create folder local lib
+  file: 
+    path: /home/vagrant/.local/lib
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+    state: directory
+
+- name: Create folder local bin
+  file: 
+    path: /home/vagrant/.local/bin
+    owner: vagrant
+    group: vagrant
+    mode: 0755
+    state: directory
+  
+- name: Code Server Download
+  unarchive:
+    src: https://github.com/cdr/code-server/releases/download/v3.9.0/code-server-3.9.0-linux-amd64.tar.gz
+    dest: /home/vagrant/.local/lib
+    remote_src: yes
+
+- name: Move code server bin
+  command: mv /home/vagrant/.local/lib/code-server-3.9.0-linux-amd64 /home/vagrant/.local/lib/code-server-3.9.0
+
+- name: Symlink
+  command: ln -s /home/vagrant/.local/lib/code-server-3.9.0/bin/code-server /home/vagrant/.local/bin/code-server
+
+- name: Setup path to local bin
+  lineinfile:
+    path: /home/vagrant/.bashrc
+    line: PATH="/home/vagrant/.local/bin:$PATH"
+    create: yes

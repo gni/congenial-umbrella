@@ -1,0 +1,14 @@
+- name: Copy systemd service file to server
+  copy:
+    src: code-server.service
+    dest: /etc/systemd/system
+    owner: vagrant
+    group: vagrant
+  become: yes
+
+- name: Start code-server
+  systemd:
+    name: code-server
+    state: started
+    enabled: yes
+    daemon_reload: yes
